@@ -10,12 +10,14 @@ function setup() {
   HTML.colorCodes = document.querySelector("#colorCodes");
   HTML.hexValue = document.querySelector(".hex");
   HTML.rgbValue = document.querySelector(".rgb");
+  HTML.cssValue = document.querySelector(".css");
   HTML.hslValue = document.querySelector(".hsl");
   HTML.colorBox = document.querySelector(".color_box");
   HTML.colorBody = document.querySelector("body");
 
-  HTML.hexValue.textContent = HTML.input.value;
-  HTML.rgbValue.textContent = "rgb(255, 255, 255)";
+  HTML.hexValue.textContent = `hex: ${HTML.input.value}`;
+  HTML.rgbValue.textContent = "rgb: 255, 255, 255";
+  HTML.cssValue.textContent = "css: rgb(255, 255, 255)";
   HTML.hslValue.textContent = "hsl: 0, 0, 100";
   HTML.colorBox.style.backgroundColor = `${HTML.input.value}`;
 
@@ -65,8 +67,8 @@ function rgbToCSS(rgbObj) {
   let r = rgbObj.r;
   let g = rgbObj.g;
   let b = rgbObj.b;
+  let rgbCSS = { r, g, b };
 
-  let rgbCSS = `rgb(${r},${g},${b})`;
   return rgbCSS;
 }
 
@@ -124,28 +126,41 @@ function rgbToHSL(rgbObj) {
   s *= 100;
   l *= 100;
 
-  let hslObj = { h, s, l };
+  // let hslObj = { h, s, l };
+  let hslObj = { h: Math.floor(h), s: Math.floor(s), l: Math.floor(l) };
   return hslObj;
 }
 
-function changeColorBox(getColor) {
-  HTML.colorBox.style.backgroundColor = `${getColor}`;
-  HTML.colorBody.style.backgroundColor = `${getColor}`;
-  // showHex(getColor);
+function displayColors(hexV, rgbV, cssV, hslV) {
+  // console.log("displayColors");
+  // console.log(hexV, rgbV, cssV, hslV);
+  displayColorBox(hexV);
+  displayHEX(hexV);
+  displayRGB(rgbV);
+  displayCSS(cssV);
+  displayHSL(hslV);
 }
 
-function showHex(hex) {
-  HTML.hexValue.textContent = hex;
-  console.log(hex);
-  // hexToRGB(hex);
+function displayColorBox(hexV) {
+  HTML.colorBox.style.backgroundColor = `${hexV}`;
+  HTML.colorBody.style.backgroundColor = `${hexV}`;
 }
 
-function showRGB(rgbObj) {
-  HTML.rgbValue.textContent = `rgb(${rgbObj.r}, ${rgbObj.r}, ${rgbObj.r})`;
-  // rgbToHSL(rgbObj);
+function displayHEX(hexV) {
+  HTML.hexValue.textContent = `hex: ${hexV}`;
 }
 
-function showHSL(hslObj) {
-  HTML.hslValue.textContent =
-    "hsl: " + hslObj.h.toFixed(0) + "%. " + hslObj.s.toFixed(0) + "%. " + hslObj.l.toFixed(0) + "%";
+function displayRGB(rgbV) {
+  HTML.rgbValue.textContent = `rgb: ${rgbV.r}, ${rgbV.g}, ${rgbV.b}`;
+}
+
+function displayCSS(cssV) {
+  console.log(cssV);
+  HTML.cssValue.textContent = `css: rgb(${cssV.r},${cssV.g},${cssV.b})`;
+}
+
+function displayHSL(hslV) {
+  // HTML.hslValue.textContent =
+  //   "hsl: " + hslV.h.toFixed(0) + "%. " + hslV.s.toFixed(0) + "%. " + hslV.l.toFixed(0) + "%";
+  HTML.hslValue.textContent = `hsl: ${hslV.h}, ${hslV.s}, ${hslV.l}`;
 }
