@@ -19,46 +19,72 @@ function setup() {
   HTML.hslValue.textContent = "hsl: 0, 0, 100";
   HTML.colorBox.style.backgroundColor = `${HTML.input.value}`;
 
-  HTML.input.addEventListener("input", getColor);
+  getColor();
   // console.log(HTML);
 }
 
 function getColor() {
-  changeColorBox(HTML.input.value);
+  HTML.input.addEventListener("input", (elm) => {
+    let pickedColorValue = HTML.input.value;
+    let hexColorValue, rgbColorValue, cssColorValue, hslColorValue;
+
+    // HEX
+    hexColorValue = `${pickedColorValue}`;
+    // console.log(hexColorValue);
+
+    // RGB
+    rgbColorValue = hexToRGB(hexColorValue);
+    // console.log(rgbColorValue);
+
+    // CSS
+    cssColorValue = rgbToCSS(rgbColorValue);
+    // console.log(cssColorValue);
+
+    // HSL
+    hslColorValue = rgbToHSL(rgbColorValue);
+    // console.log(hslColorValue);
+
+    // RGB to HEX
+    // rgbToHex(rgbColorValue);
+
+    displayColors(hexColorValue, rgbColorValue, cssColorValue, hslColorValue);
+  });
 }
 
-function changeColorBox(getColor) {
-  HTML.colorBox.style.backgroundColor = `${getColor}`;
-  HTML.colorBody.style.backgroundColor = `${getColor}`;
-  showHex(getColor);
-}
-
-function showHex(hex) {
-  HTML.hexValue.textContent = hex;
-  console.log(hex);
-  hexToRGB(hex);
-}
-
-//Convert from hex to integer
 function hexToRGB(hexCode) {
-  console.log("hexToRGB");
-  console.log(hexCode);
+  // console.log("hexToRGB");
   let r = parseInt(hexCode.substring(1, 3), 16);
   let g = parseInt(hexCode.substring(3, 5), 16);
   let b = parseInt(hexCode.substring(5, 7), 16);
-  // console.log(`{r: ${r}, g: ${g}, b: ${b}}`);
 
   let rgbObj = { r, g, b };
-  showRGB(rgbObj);
+  return rgbObj;
 }
 
-function showRGB(rgbObj) {
-  HTML.rgbValue.textContent = `rgb(${rgbObj.r}, ${rgbObj.r}, ${rgbObj.r})`;
-  rgbToHSL(rgbObj);
+function rgbToCSS(rgbObj) {
+  let r = rgbObj.r;
+  let g = rgbObj.g;
+  let b = rgbObj.b;
+
+  let rgbCSS = `rgb(${r},${g},${b})`;
+  return rgbCSS;
+}
+
+function rgbToHex(rgbObj) {
+  // console.log("rgbToHex");
+  let r = rgbObj.r;
+  let g = rgbObj.g;
+  let b = rgbObj.b;
+  let hexCode =
+    ("0" + r.toString(16)).slice(-2) +
+    ("0" + g.toString(16)).slice(-2) +
+    ("0" + b.toString(16)).slice(-2);
+  // console.log(`#${hexCode}`);
+  return `#${hexCode}`;
 }
 
 function rgbToHSL(rgbObj) {
-  console.log("rgbToHSL");
+  // console.log("rgbToHSL");
 
   let r = rgbObj.r;
   let g = rgbObj.g;
@@ -98,10 +124,25 @@ function rgbToHSL(rgbObj) {
   s *= 100;
   l *= 100;
 
-  // console.log("hsl(%f,%f%,%f%)", h, s, l); // just for testing
-
   let hslObj = { h, s, l };
-  showHSL(hslObj);
+  return hslObj;
+}
+
+function changeColorBox(getColor) {
+  HTML.colorBox.style.backgroundColor = `${getColor}`;
+  HTML.colorBody.style.backgroundColor = `${getColor}`;
+  // showHex(getColor);
+}
+
+function showHex(hex) {
+  HTML.hexValue.textContent = hex;
+  console.log(hex);
+  // hexToRGB(hex);
+}
+
+function showRGB(rgbObj) {
+  HTML.rgbValue.textContent = `rgb(${rgbObj.r}, ${rgbObj.r}, ${rgbObj.r})`;
+  // rgbToHSL(rgbObj);
 }
 
 function showHSL(hslObj) {
