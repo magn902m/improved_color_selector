@@ -25,6 +25,7 @@ function setup() {
   // console.log(HTML);
 }
 
+// ***** Model *****
 function getColor() {
   HTML.input.addEventListener("input", (elm) => {
     let pickedColorValue = HTML.input.value;
@@ -53,6 +54,18 @@ function getColor() {
   });
 }
 
+// ***** View *****
+function displayColors(hexV, rgbV, cssV, hslV) {
+  // console.log("displayColors");
+  // console.log(hexV, rgbV, cssV, hslV);
+  displayColorBox(hexV);
+  displayHEX(hexV);
+  displayRGB(rgbV);
+  displayCSS(cssV);
+  displayHSL(hslV);
+}
+
+// ***** Controller *****
 function hexToRGB(hexCode) {
   // console.log("hexToRGB");
   let r = parseInt(hexCode.substring(1, 3), 16);
@@ -129,16 +142,6 @@ function rgbToHSL(rgbObj) {
   // let hslObj = { h, s, l };
   let hslObj = { h: Math.floor(h), s: Math.floor(s), l: Math.floor(l) };
   return hslObj;
-}
-
-function displayColors(hexV, rgbV, cssV, hslV) {
-  // console.log("displayColors");
-  // console.log(hexV, rgbV, cssV, hslV);
-  displayColorBox(hexV);
-  displayHEX(hexV);
-  displayRGB(rgbV);
-  displayCSS(cssV);
-  displayHSL(hslV);
 }
 
 function displayColorBox(hexV) {
